@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterforms/src/models/Product.dart';
 import 'package:flutterforms/src/providers/productos_provider.dart';
 import 'package:flutterforms/src/utils/utils.dart' as Utils;
+import 'package:image_picker/image_picker.dart';
 
 class ProductPage extends StatefulWidget {
   static final routeName = 'product';
@@ -22,6 +25,7 @@ class _ProductPageState extends State<ProductPage> {
   Product product = new Product();
   final productsProvider = new ProductsProvider();
   bool _uploading = false;
+  File photo;
 
   @override
   void initState() {
@@ -52,13 +56,13 @@ class _ProductPageState extends State<ProductPage> {
               icon: Icon(
                 Icons.photo_size_select_actual,
               ),
-              onPressed: () {},
+              onPressed: () => _processImage(ImageSource.gallery),
             ),
             IconButton(
               icon: Icon(
                 Icons.camera_alt,
               ),
-              onPressed: () {},
+              onPressed: () => _processImage(ImageSource.camera),
             ),
           ],
         ),
@@ -69,7 +73,7 @@ class _ProductPageState extends State<ProductPage> {
               key: formKey,
               child: Column(
                 children: <Widget>[
-                  _createName(),
+                  _showPhoto(),
                   _createPrice(),
                   _createAvailable(context),
                   SizedBox(height: 20.0),
@@ -147,5 +151,21 @@ class _ProductPageState extends State<ProductPage> {
       duration: Duration(milliseconds: 1500),
     );
     scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  Widget _showPhoto() {
+    return (product.photoUrl != null)
+        ? Container()
+        : Image(
+            image: AssetImage(photo?.path ?? 'assets/no-image.png'),
+            height: 300.0,
+            fit: BoxFit.cover,
+          );
+  }
+
+  _processImage(ImageSource origin) async {
+    photo = await ImagePicker.pickImage(source: origin);
+    if (photo != null) {}
+    setState(() {});
   }
 }
