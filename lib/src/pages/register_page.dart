@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterforms/src/bloc/login_bloc.dart';
 import 'package:flutterforms/src/bloc/provider.dart';
-import 'package:flutterforms/src/pages/home_page.dart';
-import 'package:flutterforms/src/pages/register_page.dart';
+import 'package:flutterforms/src/pages/login_page.dart';
 import 'package:flutterforms/src/providers/user_provider.dart';
 import 'package:flutterforms/src/utils/utils.dart' as Utils;
 
-class LoginPage extends StatelessWidget {
-  static final routeName = 'login';
+class RegisterPage extends StatelessWidget {
+  static final routeName = 'register';
   final userProvider = new UserProvider();
 
-  LoginPage({Key key}) : super(key: key);
+  RegisterPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +113,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(
@@ -146,9 +145,9 @@ class LoginPage extends StatelessWidget {
                 ]),
           ),
           FlatButton(
-            child: Text('Sign Up'),
+            child: Text('Go to Login'),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, RegisterPage.routeName),
+                Navigator.pushReplacementNamed(context, LoginPage.routeName),
           ),
           SizedBox(
             height: 100.0,
@@ -226,10 +225,10 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) async {
-    final res = await userProvider.loginUser(bloc.email, bloc.password);
+  _login(LoginBloc bloc, BuildContext context) async{
+   final res = await userProvider.newUser(bloc.email, bloc.password);
     res['ok']
-        ? Navigator.pushNamed(context, HomePage.routeName)
+        ? Navigator.pushNamed(context, LoginPage.routeName)
         : Utils.showAlerts(context, res['msj']);
   }
 }

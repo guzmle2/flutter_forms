@@ -37,6 +37,7 @@ class HomePage extends StatelessWidget {
         future: productsProvider.getProducts(),
         builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
           final List<Product> producst = snapshot.data;
+          print(producst);
           return snapshot.hasData
               ? ListView.builder(
                   itemCount: producst.length,
